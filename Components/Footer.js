@@ -1,5 +1,6 @@
 export default function Footer() {
 
+return (
     <section id="footer">
       <div className="container">
         <div className="row">
@@ -81,4 +82,5 @@ export default function Footer() {
         </div>
       </div>
     </section>
+  );
 }
