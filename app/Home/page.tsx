@@ -1,20 +1,23 @@
-import react from "react";
+import react, { useState } from "react";
 import { AiFillFileText, AiFillBulb, AiFillAudio } from "react-icons/ai";
 import { BsStarFill, BsStarHalf } from "react-icons/bs";
 import { BiCrown } from "react-icons/bi";
 import { RiLeafLine } from "react-icons/ri";
 import landing from "../../public/landing.png";
+import LoginModule from "@/Components/LoginModule";
 export default function HomePage() {
-    return (
-        <main>
-              <section id="landing">
-      <div className="container">
-        <div className="row">
-          <div className="landing__wrapper">
-            <div className="landing__content">
-              <div className="landing__content__title">
-                Gain more knowledge <br className="remove--tablet" />
-                in less time
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <main>
+      <section id="landing">
+        <div className="container">
+          <div className="row">
+            <div className="landing__wrapper">
+              <div className="landing__content">
+                <div className="landing__content__title">
+                  Gain more knowledge <br className="remove--tablet" />
+                  in less time
               </div>
               <div className="landing__content__subtitle">
                 Great summaries for busy people,
@@ -23,7 +26,8 @@ export default function HomePage() {
                 <br className="remove--tablet" />
                 and even people who don’t like to read.
               </div>
-              <button className="btn home__cta--btn">Login</button>
+              <button className="btn home__cta--btn" onClick={() => setIsOpen(true)}>Login</button>
+              {isOpen && <LoginModule isOpen={isOpen} setIsOpen={setIsOpen} />}
             </div>
             <figure className="landing__image--mask">
               <img src={landing.src} alt="landing" />
