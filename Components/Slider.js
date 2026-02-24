@@ -1,27 +1,36 @@
+"use client";
 import React from "react";
-var $ = require(jquery);
-if (typeof window !== "undefined") {
-   window.$ = window.jQuery = require("jquery");
-}
-import "owl.carousel/dist/assets/owl.carousel.css";
-import "owl.carousel/dist/assets/owl.theme.default.css";
-const OwlCarousel = dynamic(() => import("react-owl-carousel"), {
-  ssr: false,
-});
-export default function Slider() {
-    
-    return (
-        <OwlCarousel className="owl-theme" loop margin={10} nav>
-            <div className="item"><h4>1</h4></div>
-            <div className="item"><h4>2</h4></div>
-            <div className="item"><h4>3</h4></div>
-            <div className="item"><h4>4</h4></div>
-            <div className="item"><h4>5</h4></div>
-            <div className="item"><h4>6</h4></div>
-            <div className="item"><h4>7</h4></div>
-            <div className="item"><h4>8</h4></div>
-            <div className="item"><h4>9</h4></div>
-            <div className="item"><h4>10</h4></div>
-        </OwlCarousel>
-    );
- }
+import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+
+export default () => {
+  return (
+    <Swiper
+      // install Swiper modules
+      modules={[Navigation, Pagination, Scrollbar, A11y]}
+      spaceBetween={50}
+      slidesPerView={3}
+      navigation
+      pagination={{ clickable: true }}
+      scrollbar={{ draggable: true }}
+      onSwiper={(swiper) => console.log(swiper)}
+      onSlideChange={() => console.log("slide change")}
+    >
+      <SwiperSlide>Slide 1</SwiperSlide>
+      <SwiperSlide>Slide 2</SwiperSlide>
+      <SwiperSlide>Slide 3</SwiperSlide>
+      <SwiperSlide>Slide 4</SwiperSlide>
+      <SwiperSlide>Slide 5</SwiperSlide>
+      <SwiperSlide>Slide 6</SwiperSlide>
+      <SwiperSlide>Slide 7</SwiperSlide>
+      <SwiperSlide>Slide 8</SwiperSlide>
+    </Swiper>
+  );
+};

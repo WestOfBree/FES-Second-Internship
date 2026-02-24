@@ -8,9 +8,7 @@ config.autoAddCss = false;
 import Sidebar from "@/Components/Sidebar";
 import Slider from "@/Components/Slider";
 
-
-
-export default function ForYou() {
+export default function ForYou( ) {
   return (
     <>
       <div className="wrapper">
@@ -81,6 +79,13 @@ export default function ForYou() {
                 <div className="for-you__sub-title">
                   We think you'll like these...
                 </div>
+                <div className="for-you__recommended--books">
+                  <Slider />
+                </div>
+              </div>
+              <div>
+                <div className="for-you__title"> Suggested Books </div>
+                <div className="for-you__sub-title">Browse other books</div>
                 <div className="for-you__recommended--books">
                   <Slider />
                 </div>
