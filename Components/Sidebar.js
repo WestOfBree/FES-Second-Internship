@@ -21,27 +21,35 @@ export default function Sidebar() {
       <div className="sidebar__wrapper">
         <div className="sidebar__menu--top">
           <a className="sidebar__link--wrapper">
-            <FontAwesomeIcon icon={faHouse} /> For you
+            <div className="sidebar__link--line"></div>
+            <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faHouse} /> </div> For you
           </a>
           <a className="sidebar__link--wrapper">
-            <FontAwesomeIcon icon={faBookBookmark} /> My Library
+            <div className="sidebar__link--line"></div>
+            <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faBookBookmark} /> </div> My Library
           </a>
           <a className="sidebar__link--wrapper">
-            <FontAwesomeIcon icon={faPen} /> Highlights
+            <div className="sidebar__link--line"></div>
+            <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faPen} /> </div> Highlights
           </a>
           <a className="sidebar__link--wrapper">
-            <FontAwesomeIcon icon={faMagnifyingGlass} /> Search
+            <div className="sidebar__link--line"></div>
+            <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faMagnifyingGlass} /> </div> Search
           </a>
         </div>
         <div className="sidebar__menu--bottom">
           <a className="sidebar__link--wrapper">
-            <FontAwesomeIcon icon={faGear} /> Settings
+            <div className="sidebar__link--line"></div>
+            <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faGear} /> </div> Settings
           </a>
           <a className="sidebar__link--wrapper">
-            <FontAwesomeIcon icon={faQuestionCircle} /> Summon the Fellowship
+            <div className="sidebar__link--line"></div>
+            <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faQuestionCircle} /> </div> Summon the Fellowship
           </a>
           <a className="sidebar__link--wrapper">
-            <FontAwesomeIcon icon={faPersonThroughWindow} /> Im-Going-On-An-Adventure
+            <div className="sidebar__link--line"></div>
+            <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faPersonThroughWindow} /> </div>
+            Im-Going-On-An-Adventure
           </a>
         </div>
       </div>

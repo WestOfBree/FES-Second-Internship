@@ -11,7 +11,6 @@ import {
 import { FaUserAstronaut} from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
-
 export default function LoginModule({ isOpen, setIsOpen }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
