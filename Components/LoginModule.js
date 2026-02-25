@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./LoginModule.css";
+import "./LoginModule.modal.css";
 import { useRouter } from "next/navigation";
 import { auth } from "../app/Firebase/init";
 import {
