@@ -7,6 +7,7 @@ import {books} from "../public/data";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import Router from "next/link";
 
 export default () => {
   return (
@@ -20,7 +21,7 @@ export default () => {
     >
       {books.map((book, index) => (
         <SwiperSlide key={index}>
-          <Book {...book} />
+          <Router href={`/ForYou/BookInfo${book.id}`}><Book {...book} /></Router>
         </SwiperSlide>
       ))}
     </Swiper>

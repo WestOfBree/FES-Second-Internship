@@ -1,3 +1,7 @@
+.sidebar__link--wrapper.no-click:hover {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
 .sidebar {
   position: fixed;
   top: 0;

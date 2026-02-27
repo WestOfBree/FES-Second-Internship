@@ -11,6 +11,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Sidebar.modal.css";
 import logo from "../public/logo.png";
+import Link from "next/link";
 
 export default function Sidebar() {
   return (
@@ -20,19 +21,19 @@ export default function Sidebar() {
       </div>
       <div className="sidebar__wrapper">
         <div className="sidebar__menu--top">
-          <a className="sidebar__link--wrapper">
+          <Link href="/ForYou" className="sidebar__link--wrapper">
             <div className="sidebar__link--line"></div>
-            <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faHouse} /> </div> For you
-          </a>
+            <div className="sidebar__icon--wrapper">  <FontAwesomeIcon icon={faHouse} />  </div> For you
+          </Link>
           <a className="sidebar__link--wrapper">
             <div className="sidebar__link--line"></div>
             <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faBookBookmark} /> </div> My Library
           </a>
-          <a className="sidebar__link--wrapper">
+          <a className="sidebar__link--wrapper no-click">
             <div className="sidebar__link--line"></div>
             <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faPen} /> </div> Highlights
           </a>
-          <a className="sidebar__link--wrapper">
+          <a className="sidebar__link--wrapper no-click">
             <div className="sidebar__link--line"></div>
             <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faMagnifyingGlass} /> </div> Search
           </a>
@@ -42,7 +43,7 @@ export default function Sidebar() {
             <div className="sidebar__link--line"></div>
             <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faGear} /> </div> Settings
           </a>
-          <a className="sidebar__link--wrapper">
+          <a className="sidebar__link--wrapper no-click">
             <div className="sidebar__link--line"></div>
             <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faQuestionCircle} /> </div> Summon the Fellowship
           </a>

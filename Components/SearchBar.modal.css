@@ -1,3 +1,9 @@
+.search__background {
+  background-color: #fff;
+  border-bottom: 1px solid #e1e7ea;
+  height: 80px;
+  z-index: 1;
+}
 .search__wrapper{
     position: relative;
     display: flex;
