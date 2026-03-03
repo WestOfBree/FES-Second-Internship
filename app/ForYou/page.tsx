@@ -8,8 +8,39 @@ config.autoAddCss = false;
 import Sidebar from "@/Components/Sidebar";
 import Slider from "@/Components/Slider";
 import SearchBar from "@/Components/SearchBar";
+import { useEffect, useState } from "react";
+import LoginModule from "@/Components/LoginModule";
+import axios from "axios";
 
 export default function ForYou() {
+  const [isOpen, setIsOpen] = useState(false);
+    const [recommendedBooks, setRecommendedBooks] = useState([]);
+    const [suggestedBooks, setSuggestedBooks] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    
+      useEffect(() => {
+        axios.get('https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended')
+          .then(response => {
+            setRecommendedBooks(response.data);
+            setIsLoading(false);
+          })
+          .catch(error => {
+            console.error('Error fetching data:', error);
+            setIsLoading(false);
+          });
+      }, []);
+            useEffect(() => {
+        axios.get('https://us-central1-summaristt.cloudfunctions.net/getBooks?status=suggested')
+          .then(response => {
+            setSuggestedBooks(response.data);
+            setIsLoading(false);
+          })
+          .catch(error => {
+            console.error('Error fetching data:', error);
+            setIsLoading(false);
+          });
+      }, []);
+
   return (
     <>
       <div className="wrapper">
@@ -60,14 +91,16 @@ export default function ForYou() {
                   We think you'll like these...
                 </div>
                 <div className="for-you__recommended--books">
-                  <Slider />
+                  <Slider setIsOpen={setIsOpen} books={recommendedBooks} />
+                  {isOpen && <LoginModule isOpen={isOpen} setIsOpen={setIsOpen} />}
                 </div>
               </div>
               <div>
                 <div className="for-you__title"> Suggested Books </div>
                 <div className="for-you__sub-title">Browse other books</div>
                 <div className="for-you__recommended--books">
-                  <Slider />
+                  <Slider setIsOpen={setIsOpen} books={suggestedBooks} />
+                  {isOpen && <LoginModule isOpen={isOpen} setIsOpen={setIsOpen} />}
                 </div>
               </div>
             </div>

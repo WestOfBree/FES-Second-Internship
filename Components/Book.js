@@ -2,11 +2,11 @@ import "./Book.modal.css";
 import { FaStar, FaClock} from "react-icons/fa";
 import { Router } from "next/link";
 
-export default function Book({ id, title, author, subtitle, duration, averageRating, imageLink }) {
+export default function Book({ id, title, author, subtitle, duration, averageRating, imageLink, subscriptionRequired }) {
   return (
     <>
         <div className="for-you__recommended--books-link">
-          <div className="book__pill book__pill--subscription-required">Premium</div>
+          {subscriptionRequired ? <div className="book__pill book__pill--subscription-required">Premium</div> : null}
           <figure
             className="book__image--wrapper"
             style={{ marginBottom: "8px" }}
