@@ -1,3 +1,4 @@
+"use client";
 import Sidebar from "@/Components/Sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,11 +12,29 @@ import {
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import SearchBar from "@/Components/SearchBar";
 import "./styles.css";
-import { books } from "@/public/data";
+import { useEffect } from "react";
+import { db } from "@/Firebase/init.js";
+import { collection, getDocs } from "firebase/firestore";
 
 export default function BookInfo({ params }: { params: { bookId: string } }) {
-  const book = books.find((b) => b.id === parseInt(params.bookId));
-  return (
+
+const booksCollectionRef = collection(db, "books");
+
+useEffect(() => {
+  const fetchBooks = async () => {
+    try {
+      const querySnapshot = await getDocs(booksCollectionRef);
+      const books = querySnapshot.docs.map((doc) => doc.data());
+      console.log(books);
+    } catch (error) {
+      console.error("Error fetching books:", error);
+    }
+  };
+
+  fetchBooks();
+}, []);
+
+return (
     <>
       <div className="wrapper">
         <SearchBar />
