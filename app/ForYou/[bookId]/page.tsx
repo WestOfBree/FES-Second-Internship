@@ -10,7 +10,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import SearchBar from "@/Components/SearchBar";
-import { books } from "@/public/data";
 import "./styles.css";
 import {collection, getDocs } from "firebase/firestore";
 import { db } from "../../Firebase/init";
@@ -31,9 +30,13 @@ interface Book {
 }
 
 async function getBook({ bookId }: { bookId: string; }): Promise<Book | undefined> {
-    const booksCollection = collection(db, "books");
+    const booksCollection = collection(db, "Books");
     const booksSnapshot = await getDocs(booksCollection);
-    const booksList = booksSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Book));
+const booksList = booksSnapshot.docs.map(doc => ({
+  id: doc.id,
+  ...doc.data()
+} as Book));
+    console.log(booksList);
     return booksList.find((b) => b.id === bookId);
     }
 
