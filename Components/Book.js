@@ -2,7 +2,7 @@ import "./Book.modal.css";
 import { FaStar, FaClock} from "react-icons/fa";
 import { Router } from "next/link";
 
-export default function Book({ id, title, author, subtitle, duration, averageRating, imageLink, subscriptionRequired }) {
+export default function Book({ title, author, subtitle, duration, averageRating, imageLink, subscriptionRequired }) {
   return (
     <>
         <div className="for-you__recommended--books-link">

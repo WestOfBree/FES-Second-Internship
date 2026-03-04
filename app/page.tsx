@@ -1,7 +1,7 @@
 'use client'
 import "./globals.css";
 import NavBar from "../Components/NavBar";
-import HomePage from "./Home/page";
+import HomePage from "./Landing/page";
 import Footer from "../Components/Footer";
 import type { ComponentType } from "react";
 import { auth } from './Firebase/init';

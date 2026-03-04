@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+"use client";
+import { useState } from "react";
 import "./LoginModule.modal.css";
 import { useRouter } from "next/navigation";
 import { auth } from "../app/Firebase/init";
@@ -55,24 +56,22 @@ function loginAsGuest() {
       .catch((error) => {
         console.error("Error logging in:", error);
       });
-    console.log("Login function called");
-  }
+  console.log("Login function called");
+}
 
-  function logout() {
-    // Logout logic using auth
-    signOut(auth)
-      .then(() => {
-        console.log("User signed out");
-      })
-      .catch((error) => {
-        console.error("Error signing out:", error);
-      });
-  }
+function logout() {
+  // Logout logic using auth
+  signOut(auth)
+    .then(() => {
+      console.log("User signed out");
+    })
+    .catch((error) => {
+      console.error("Error signing out:", error);
+    });
+}
 
   return (
     <>
-      {/* <button onClick={() => setIsOpen(true)}>Login</button> */}
-
       {isOpen && (
         <div className="modal-overlay" onClick={() => setIsOpen(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>

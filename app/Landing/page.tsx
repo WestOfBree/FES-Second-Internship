@@ -1,3 +1,4 @@
+"use client";
 import react, { useState } from "react";
 import { AiFillFileText, AiFillBulb, AiFillAudio } from "react-icons/ai";
 import { BsStarFill, BsStarHalf } from "react-icons/bs";

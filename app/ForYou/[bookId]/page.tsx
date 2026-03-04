@@ -1,3 +1,4 @@
+"use client";
 import Sidebar from "@/Components/Sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -12,9 +13,11 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import SearchBar from "@/Components/SearchBar";
 import "./styles.css";
 
-
-export default async function BookInfo({ params }: { params: { bookId: string } }) {
-
+export default async function BookInfo(params: { bookId: string }) {
+  const { bookId } = params;
+  const res = await fetch(`https://summarist.vercel.app/book/${bookId}`);
+  if (!res.ok) throw new Error('Failed to fetch book');
+  const book = await res.json();
 
   if (!book) {
     return (
@@ -112,7 +115,7 @@ export default async function BookInfo({ params }: { params: { bookId: string } 
                 What is this book about?
               </div>
               <div className="inner-book__tags--wrapper">
-                {book.tags.map((tag, index) => (
+                {book.tags.map((tag: string, index: number) => (
                   <div key={index} className="inner-book__tag">
                     #{tag}
                   </div>
