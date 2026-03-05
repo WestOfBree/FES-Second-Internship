@@ -13,37 +13,36 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import SearchBar from "@/Components/SearchBar";
 import "./styles.css";
 
-export default async function BookInfo(params: { bookId: string }) {
-  const { bookId } = params;
-  const res = await fetch(`https://summarist.vercel.app/book/${bookId}`);
-  if (!res.ok) throw new Error('Failed to fetch book');
-  const book = await res.json();
+export default function BookInfo() {
+  // const { bookId } = params;
+  // const res = await fetch(`https://summarist.vercel.app/book/${bookId}`);
+  // if (!res.ok) throw new Error('Failed to fetch book');
+  // const book = await res.json();
 
-  if (!book) {
-    return (
-      <>
-        <div className="wrapper">
-          <SearchBar />
-        </div>
-        <div className="sidebar__overlay">
-          <Sidebar />
-        </div>
-        <div className="row">
-          <div className="container">
-            <div className="inner__wrapper">
-              <div>Book not found</div>
-            </div>
-          </div>
-        </div>
-      </>
-    );
-  }
+  // if (!book) {
+  //   return (
+  //     <>
+  //       <div className="wrapper">
+  //         <SearchBar />
+  //       </div>
+  //       <div className="sidebar__overlay">
+  //         <Sidebar />
+  //       </div>
+  //       <div className="row">
+  //         <div className="container">
+  //           <div className="inner__wrapper">
+  //             <div>Book not found</div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </>
+  //   );
+  // }
 
- else return (
+  return (
     <>
       <div className="wrapper">
         <SearchBar />
-      </div>
       <div className="sidebar__overlay">
         <Sidebar />
       </div>
@@ -51,9 +50,9 @@ export default async function BookInfo(params: { bookId: string }) {
         <div className="container">
           <div className="inner__wrapper">
             <div className="inner__book">
-              <div className="inner-book__title">{book.title}</div>
-              <div className="inner-book__author">{book.author}</div>
-              <div className="inner-book__subtitle">{book.subtitle}</div>
+              <div className="inner-book__title">title</div>
+              <div className="inner-book__author">author</div>
+              <div className="inner-book__subtitle">subtitle</div>
               <div className="inner-book__wrapper">
                 <div className="inner-book__description--wrapper">
                   <div className="inner-book__description">
@@ -61,10 +60,10 @@ export default async function BookInfo(params: { bookId: string }) {
                       <FontAwesomeIcon icon={faStar} />
                     </div>
                     <div className="inner-book__overall--rating">
-                      {book.averageRating}
+                      averageRating
                     </div>
                     <div className="inner-book__total--rating">
-                      ({book.totalRatings} ratings)
+                      (totalRatings ratings)
                     </div>
                   </div>
                   <div className="inner-book__description">
@@ -77,14 +76,14 @@ export default async function BookInfo(params: { bookId: string }) {
                     <div className="inner-book__icon">
                       <FontAwesomeIcon icon={faMicrophone} />
                     </div>
-                    <div className="inner-book__type">{book.type}</div>
+                    <div className="inner-book__type">type</div>
                   </div>
                   <div className="inner-book__description">
                     <div className="inner-book__icon">
                       <FontAwesomeIcon icon={faLightbulb} />
                     </div>
                     <div className="inner-book__key--ideas">
-                      {book.keyIdeas} Key Ideas
+                       Key Ideas
                     </div>
                   </div>
                 </div>
@@ -108,26 +107,24 @@ export default async function BookInfo(params: { bookId: string }) {
                   <FontAwesomeIcon icon={faBookmark} />
                 </div>
                 <div className="inner-book__bookmark--text">
-                  Add {book.title} to My Library
+                  Add to My Library
                 </div>
               </div>
               <div className="inner-book__secondary--title">
                 What is this book about?
               </div>
               <div className="inner-book__tags--wrapper">
-                {book.tags.map((tag: string, index: number) => (
-                  <div key={index} className="inner-book__tag">
-                    #{tag}
+                
+                  <div className="inner-book__tag">
+                    #tag1
                   </div>
-                ))}
               </div>
               <div className="inner-book__book--description">
-                {book.summary}
+                book description goes here. This is a brief summary of the book's content, highlighting the main themes and ideas presented in the book. It provides readers with an overview of what to expect and why they should read it.
               </div>
               <h2 className="inner-book__secondary--title">About the Author</h2>
               <div className="inner-book__author--description">
-                {book.authorDescription ||
-                  `${book.author} is the author of "${book.title}". Learn more about this talented writer and their other works.`}
+                authorDescription 
               </div>
             </div>
             <div className="inner-book--image-wrapper">
@@ -137,13 +134,14 @@ export default async function BookInfo(params: { bookId: string }) {
               >
                 <img
                   className="book__image"
-                  src={book.imageLink}
-                  alt={book.title}
+                  src={"https://www.thebookdesigner.com/wp-content/uploads/2024/05/J.R.R.Tolkien-The-Hobbit.png"}
+                  alt="Book Cover"
                 />
               </figure>
             </div>
           </div>
         </div>
+      </div>
       </div>
     </>
   );

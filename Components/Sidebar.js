@@ -52,10 +52,10 @@ export default function Sidebar( ) {
           </a>
         </div>
         <div className="sidebar__menu--bottom">
-          <a className="sidebar__link--wrapper">
+          <Router href="/Settings" className="sidebar__link--wrapper">
             <div className="sidebar__link--line"></div>
             <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faGear} /> </div> Settings
-          </a>
+          </Router>
           <a className="sidebar__link--wrapper no-click">
             <div className="sidebar__link--line"></div>
             <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faQuestionCircle} /> </div> Summon the Fellowship
