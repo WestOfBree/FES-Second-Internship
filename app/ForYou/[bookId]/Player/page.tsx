@@ -104,7 +104,9 @@ export default function Player() {
           Consequatur asperiores beatae eos in eius dolorem error at. Recusandae
           odit harum dolorum aperiam laudantium aspernatur culpa tenetur nisi.
         </div>
-        <div className="audio__wrapper"></div>
+        <div className="audio__wrapper">
+            <AudioPlayer />
+        </div>
       </div>
     </div>
   );
