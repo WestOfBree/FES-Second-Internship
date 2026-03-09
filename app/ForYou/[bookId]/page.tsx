@@ -12,13 +12,39 @@ import {
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import SearchBar from "@/Components/SearchBar";
 import "./styles.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "next/navigation";
 
-export default function BookInfo() {
-  // const { bookId } = params;
-  // const res = await fetch(`https://summarist.vercel.app/book/${bookId}`);
-  // if (!res.ok) throw new Error('Failed to fetch book');
-  // const book = await res.json();
+interface BookInfoProps {
+  id: string;
+  title: string;
+  author: string;
+  subtitle: string;
+  averageRating: number;
+  totalRatings: number;
+  duration: string;
+  type: string;
+  keyIdeas: string[];
+}
 
+export default function BookInfo(useParams: { bookId: string; }) {
+      const { bookId } = useParams;
+      const [bookInfo, setBookInfo] = useState<BookInfoProps>({} as BookInfoProps);
+      const [isLoading, setIsLoading] = useState(true);
+
+      useEffect(() => {
+        axios.get(`https://us-central1-summaristt.cloudfunctions.net/getBook?id=${bookId}`)
+          .then(response => {
+            setBookInfo(response.data);
+            setIsLoading(false);
+            console.log(response.data);
+          })
+          .catch(error => {
+            console.error('Error fetching data:', error);
+            setIsLoading(false);
+          });
+      }, []);
   // if (!book) {
   //   return (
   //     <>
@@ -50,7 +76,7 @@ export default function BookInfo() {
         <div className="container">
           <div className="inner__wrapper">
             <div className="inner__book">
-              <div className="inner-book__title">title</div>
+              <div className="inner-book__title">{bookInfo.title}</div>
               <div className="inner-book__author">author</div>
               <div className="inner-book__subtitle">subtitle</div>
               <div className="inner-book__wrapper">
