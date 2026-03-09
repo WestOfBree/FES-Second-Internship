@@ -120,20 +120,20 @@ console.log(bookId);
                 </div>
               </div>
               <div className="inner-book__read--btn-wrapper">
-                <Link href={`ForYou/${bookId}/player`}>
+                <Link href={`/ForYou/${bookId}/Player`}>
                   <button className="inner-book__read--btn">
-                    <div className="inner-book__read--icon">
-                      <FontAwesomeIcon icon={faBook} />
-                    </div>
-                    <div className="inner-book__read--text">Read Now</div>
+                  <div className="inner-book__read--icon">
+                    <FontAwesomeIcon icon={faBook} />
+                  </div>
+                  <div className="inner-book__read--text">Read Now</div>
                   </button>
                 </Link>
-                <Link href={`/5bxl50cz4bt/player?bookId=5bxl50cz4bt`}>
+                <Link href={`/ForYou/${bookId}/Player`}>
                   <button className="inner-book__read--btn">
-                    <div className="inner-book__read--icon">
-                      <FontAwesomeIcon icon={faMicrophone} />
-                    </div>
-                    <div className="inner-book__read--text">Listen Now</div>
+                  <div className="inner-book__read--icon">
+                    <FontAwesomeIcon icon={faMicrophone} />
+                  </div>
+                  <div className="inner-book__read--text">Listen Now</div>
                   </button>
                 </Link>
               </div>
@@ -165,7 +165,7 @@ console.log(bookId);
             <div className="inner-book--image-wrapper">
               <figure
                 className="book__image--wrapper"
-                style={{ height: "300px", width: "240px", minWidth: "240px" }}
+                style={{ height: "300px", width: "300px" }}
               >
                 <img
                   className="book__image"

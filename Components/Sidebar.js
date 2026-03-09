@@ -58,12 +58,12 @@ export default function Sidebar( ) {
           </Router>
           <a className="sidebar__link--wrapper no-click">
             <div className="sidebar__link--line"></div>
-            <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faQuestionCircle} /> </div> Summon the Fellowship
+            <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faQuestionCircle} /> </div> Help
           </a>
           <Router href="/" onClick={() => {logout()}} className="sidebar__link--wrapper">
             <div className="sidebar__link--line"></div>
             <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faPersonThroughWindow} /> </div>
-            Im-Going-On-An-Adventure
+            Logout
           </Router>
         </div>
       </div>
