@@ -79,7 +79,14 @@ button:disabled {
   align-items: center;
   justify-content: center;
 }
-
+.wrapper{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-left: 200px;
+  width: calc(100% - 200px);
+  transition: all 0.3s ease;
+}
 /* HOME */
 .section__title {
   font-size: 32px;
