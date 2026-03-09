@@ -12,9 +12,9 @@ import {
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import SearchBar from "@/Components/SearchBar";
 import "./styles.css";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "next/navigation";
+import Link from "next/link";
 
 interface BookInfoProps {
   id: string;
@@ -25,13 +25,18 @@ interface BookInfoProps {
   totalRatings: number;
   duration: string;
   type: string;
-  keyIdeas: string[];
+  bookDescription: string;
+  authorDescription: string;
+  tags: string[];
+  imageLink: string;
+  keyIdeas: number;
 }
 
-export default function BookInfo(useParams: { bookId: string; }) {
-      const { bookId } = useParams;
-      const [bookInfo, setBookInfo] = useState<BookInfoProps>({} as BookInfoProps);
+export default function BookInfo({params}: {params: Promise<{bookId: string}>}) {
+      const { bookId } = use(params);
+        const [bookInfo, setBookInfo] = useState<BookInfoProps | null>(null);
       const [isLoading, setIsLoading] = useState(true);
+console.log(bookId);
 
       useEffect(() => {
         axios.get(`https://us-central1-summaristt.cloudfunctions.net/getBook?id=${bookId}`)
@@ -76,9 +81,9 @@ export default function BookInfo(useParams: { bookId: string; }) {
         <div className="container">
           <div className="inner__wrapper">
             <div className="inner__book">
-              <div className="inner-book__title">{bookInfo.title}</div>
-              <div className="inner-book__author">author</div>
-              <div className="inner-book__subtitle">subtitle</div>
+              <div className="inner-book__title">{bookInfo?.title}</div>
+              <div className="inner-book__author">{bookInfo?.author}</div>
+              <div className="inner-book__subtitle">{bookInfo?.subtitle}</div>
               <div className="inner-book__wrapper">
                 <div className="inner-book__description--wrapper">
                   <div className="inner-book__description">
@@ -86,47 +91,51 @@ export default function BookInfo(useParams: { bookId: string; }) {
                       <FontAwesomeIcon icon={faStar} />
                     </div>
                     <div className="inner-book__overall--rating">
-                      averageRating
+                      {bookInfo?.averageRating}
                     </div>
                     <div className="inner-book__total--rating">
-                      (totalRatings ratings)
+                      ({bookInfo?.totalRatings} ratings)
                     </div>
                   </div>
                   <div className="inner-book__description">
                     <div className="inner-book__icon">
                       <FontAwesomeIcon icon={faClock} />
                     </div>
-                    <div className="inner-book__duration">10 min</div>
+                    <div className="inner-book__duration">{bookInfo?.duration}</div>
                   </div>
                   <div className="inner-book__description">
                     <div className="inner-book__icon">
                       <FontAwesomeIcon icon={faMicrophone} />
                     </div>
-                    <div className="inner-book__type">type</div>
+                    <div className="inner-book__type">{bookInfo?.type}</div>
                   </div>
                   <div className="inner-book__description">
                     <div className="inner-book__icon">
                       <FontAwesomeIcon icon={faLightbulb} />
                     </div>
                     <div className="inner-book__key--ideas">
-                       Key Ideas
+                       {bookInfo?.keyIdeas} Key Ideas
                     </div>
                   </div>
                 </div>
               </div>
               <div className="inner-book__read--btn-wrapper">
-                <button className="inner-book__read--btn">
-                  <div className="inner-book__read--icon">
-                    <FontAwesomeIcon icon={faBook} />
-                  </div>
-                  <div className="inner-book__read--text">Read Now</div>
-                </button>
-                <button className="inner-book__read--btn">
-                  <div className="inner-book__read--icon">
-                    <FontAwesomeIcon icon={faMicrophone} />
-                  </div>
-                  <div className="inner-book__read--text">Listen Now</div>
-                </button>
+                <Link href={`ForYou/${bookId}/player`}>
+                  <button className="inner-book__read--btn">
+                    <div className="inner-book__read--icon">
+                      <FontAwesomeIcon icon={faBook} />
+                    </div>
+                    <div className="inner-book__read--text">Read Now</div>
+                  </button>
+                </Link>
+                <Link href={`/5bxl50cz4bt/player?bookId=5bxl50cz4bt`}>
+                  <button className="inner-book__read--btn">
+                    <div className="inner-book__read--icon">
+                      <FontAwesomeIcon icon={faMicrophone} />
+                    </div>
+                    <div className="inner-book__read--text">Listen Now</div>
+                  </button>
+                </Link>
               </div>
               <div className="inner-book__bookmark">
                 <div className="inner-book__bookmark--icon">
@@ -146,11 +155,11 @@ export default function BookInfo(useParams: { bookId: string; }) {
                   </div>
               </div>
               <div className="inner-book__book--description">
-                book description goes here. This is a brief summary of the book's content, highlighting the main themes and ideas presented in the book. It provides readers with an overview of what to expect and why they should read it.
+                {bookInfo?.bookDescription}
               </div>
               <h2 className="inner-book__secondary--title">About the Author</h2>
               <div className="inner-book__author--description">
-                authorDescription 
+                {bookInfo?.authorDescription}
               </div>
             </div>
             <div className="inner-book--image-wrapper">
@@ -160,7 +169,7 @@ export default function BookInfo(useParams: { bookId: string; }) {
               >
                 <img
                   className="book__image"
-                  src={"https://www.thebookdesigner.com/wp-content/uploads/2024/05/J.R.R.Tolkien-The-Hobbit.png"}
+                  src={`${bookInfo?.imageLink}`}
                   alt="Book Cover"
                 />
               </figure>

@@ -1,3 +1,5 @@
+"use client";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SearchBar from "@/Components/SearchBar";
 import Sidebar from "@/Components/Sidebar";
 import "./styles.css";

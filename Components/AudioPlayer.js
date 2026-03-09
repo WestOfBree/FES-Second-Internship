@@ -1,4 +1,4 @@
-import "./AudioPlayer.modale.css";
+import "./AudioPlayer.modal.css";
 
 export default function AudioPlayer() {
     return (
