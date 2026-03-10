@@ -3,10 +3,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SearchBar from "@/Components/SearchBar";
 import Sidebar from "@/Components/Sidebar";
 import "./styles.css";
+import { useEffect, useRef } from "react";
 
 export default function MyLibrary() {
     const savedBooks = []; // Replace with actual data fetching logic
     const finishedBooks = []; // Replace with actual data fetching logic
+    const hasShownAlert = useRef(false);
+    
+    useEffect(() => {
+      if (!hasShownAlert.current) {
+        alert("My Library page is under construction. Please check back later!");
+        hasShownAlert.current = true;
+      }
+    }, []);
   return (
     <div className="wrapper">
       <SearchBar />
