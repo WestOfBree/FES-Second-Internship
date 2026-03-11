@@ -5,12 +5,33 @@ import {
   faArrowRotateForward,
   faCirclePlay,
 } from "@fortawesome/free-solid-svg-icons";
-import { height } from "@fortawesome/free-brands-svg-icons/fa11ty";
+import React from "react";
 
 export default function AudioPlayer({ bookInfo }) {
+  const audioRef = React.useRef(null);
+  const [isPlaying, setIsPlaying] = React.useState(false);
+
+  const togglePlay = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+
   return (
     <>
-      {/* insert audio file on this line */}
+      <audio className="audio__player" ref={audioRef}>
+        <source
+          src={bookInfo?.audioLink || null}
+          type="audio/mpeg"
+        />
+        Your browser does not support the audio element.
+      </audio>
       <div className="audio__track--wrapper">
         <figure className="audio__track--image-mask">
           <figure className="audio__track--image-border">
@@ -40,7 +61,7 @@ export default function AudioPlayer({ bookInfo }) {
               }}
             />
           </button>
-          <button className="audio__control--button">
+          <button className="audio__control--button" onClick={togglePlay}>
             <FontAwesomeIcon
               icon={faCirclePlay}
               style={{ height: "40px", width: "40px", color: "#fff" }}
