@@ -4,32 +4,41 @@ import {
   faArrowRotateBack,
   faArrowRotateForward,
   faCirclePlay,
+  faPause,
 } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 
 export default function AudioPlayer({ bookInfo }) {
   const audioRef = React.useRef(null);
   const [isPlaying, setIsPlaying] = React.useState(false);
-
-  const togglePlay = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play();
+  const togglePlay = async () => {
+    try {
+      if (audioRef.current) {
+        if (isPlaying) {
+          await audioRef.current.pause();
+        } else {
+          await audioRef.current.play();
+        }
       }
       setIsPlaying(!isPlaying);
+    } catch (error) {
+      console.error("Error playing audio:", error);
+    }
+  };
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      const currentTime = audioRef.current.currentTime;
     }
   };
 
+  React.useEffect(() => {
+    console.log(audioRef);
+  }, []);
 
   return (
     <>
       <audio className="audio__player" ref={audioRef}>
-        <source
-          src={bookInfo?.audioLink || null}
-          type="audio/mpeg"
-        />
+        <source src={bookInfo?.audioLink || null} type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
       <div className="audio__track--wrapper">
@@ -37,15 +46,22 @@ export default function AudioPlayer({ bookInfo }) {
           <figure className="audio__track--image-border">
             <img
               className="audio__track--image"
-              src={bookInfo?.imageLink || "https://www.thebookdesigner.com/wp-content/uploads/2024/05/J.R.R.Tolkien-The-Hobbit.png"}
+              src={
+                bookInfo?.imageLink ||
+                "https://www.thebookdesigner.com/wp-content/uploads/2024/05/J.R.R.Tolkien-The-Hobbit.png"
+              }
               alt="Book Cover"
               style={{ height: "48px", width: "48px" }}
             />
           </figure>
         </figure>
         <div className="audio__track--info-wrapper">
-          <div className="audio__track--title">{bookInfo?.title || "Book Title"}</div>
-          <div className="audio__track--author">{bookInfo?.author || "Author Name"}</div>
+          <div className="audio__track--title">
+            {bookInfo?.title || "Book Title"}
+          </div>
+          <div className="audio__track--author">
+            {bookInfo?.author || "Author Name"}
+          </div>
         </div>
       </div>
       <div className="audio__controls--wrapper">
@@ -63,7 +79,7 @@ export default function AudioPlayer({ bookInfo }) {
           </button>
           <button className="audio__control--button" onClick={togglePlay}>
             <FontAwesomeIcon
-              icon={faCirclePlay}
+              icon={isPlaying ? faPause : faCirclePlay}
               style={{ height: "40px", width: "40px", color: "#fff" }}
             />
           </button>
@@ -83,6 +99,7 @@ export default function AudioPlayer({ bookInfo }) {
       <div className="audio__progress--wrapper">
         <div className="audio__time"> 00:00</div>
         <input
+          onChange={(e) => {handleTimeUpdate(e)}}
           type="range"
           className="audio__progress--bar"
           min="0"
