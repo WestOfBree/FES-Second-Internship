@@ -73,7 +73,7 @@ console.log(bookId);
   return (
     <>
       <div className="wrapper">
-        <SearchBar />
+        <SearchBar bookInfo={bookInfo} />
       <div className="sidebar__overlay">
         <Sidebar />
       </div>
