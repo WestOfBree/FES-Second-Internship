@@ -23,7 +23,7 @@ export default function Settings() {
   if (currentUser?.isAnonymous) {
     return (
       <div className="wrapper">
-        <SearchBar bookInfo={null} />
+        <SearchBar />
         <div className="sidebar__overlay">
           <Sidebar />
         </div>
@@ -41,7 +41,7 @@ export default function Settings() {
   else {
   return (
     <div className="wrapper">
-      <SearchBar bookInfo={null} />
+      <SearchBar />
       <div className="sidebar__overlay">
         <Sidebar />
       </div>

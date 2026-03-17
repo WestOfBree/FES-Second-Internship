@@ -36,6 +36,7 @@ export default function BookInfo({params}: {params: Promise<{bookId: string}>}) 
       const { bookId } = use(params);
         const [bookInfo, setBookInfo] = useState<BookInfoProps | null>(null);
       const [isLoading, setIsLoading] = useState(true);
+      const [setIsOpen] = useState(false);
 console.log(bookId);
 
       useEffect(() => {
@@ -50,30 +51,11 @@ console.log(bookId);
             setIsLoading(false);
           });
       }, []);
-  // if (!book) {
-  //   return (
-  //     <>
-  //       <div className="wrapper">
-  //         <SearchBar />
-  //       </div>
-  //       <div className="sidebar__overlay">
-  //         <Sidebar />
-  //       </div>
-  //       <div className="row">
-  //         <div className="container">
-  //           <div className="inner__wrapper">
-  //             <div>Book not found</div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </>
-  //   );
-  // }
 
   return (
     <>
       <div className="wrapper">
-        <SearchBar bookInfo={bookInfo} />
+        <SearchBar setIsOpen={setIsOpen}/>
       <div className="sidebar__overlay">
         <Sidebar />
       </div>

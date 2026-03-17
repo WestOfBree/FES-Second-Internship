@@ -57,7 +57,7 @@ export default function ForYou() {
   return (
     <>
       <div className="wrapper">
-        <SearchBar />
+        <SearchBar setIsOpen={setIsOpen}/>
         <div className="sidebar__overlay">
           <Sidebar />
         </div>

@@ -11,7 +11,7 @@
   height: 100vh;
   background-color: #f7faf9;
   transition: all 0.3s ease;
-  z-index: 1000;
+  z-index: 2;
 }
 .sidebar__header{
     display: flex;
@@ -35,7 +35,7 @@
     overflow-y: auto;
 }
 .sidebar__menu--top{
-    flex: 1 1;
+    flex: 1 1 auto;
     margin-top: 40px;
 }
 .sidebar__menu--top,
@@ -50,6 +50,7 @@ flex-direction: column;
     margin-bottom: 8px;
     cursor: pointer;
     color: #032b41;
+    z-index: 1;
 }
 .sidebar__link--line{
     width: 5px;
