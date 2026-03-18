@@ -8,6 +8,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
   signInAnonymously,
+  onAuthStateChanged
 } from "firebase/auth";
 import { FaUserAstronaut} from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
@@ -72,6 +73,21 @@ function logout() {
       setErrorMessage("Error signing out: " + error.message);
     });
 }
+
+onAuthStateChanged(auth, (user) => {
+  console.log("Auth state changed:", user);
+});
+// function checkAuthStatus() {
+//   const [user, setUser] = useState(null);
+//   useEffect(() => {
+//     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+//       setUser(currentUser);
+//     });
+
+//     return () => unsubscribe();
+//   }, []);
+//   return user;
+// }
 
 if (isRegisterMode) {
   return (
