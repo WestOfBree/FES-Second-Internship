@@ -11,13 +11,26 @@ import SearchBar from "@/Components/SearchBar";
 import { useEffect, useState } from "react";
 import LoginModule from "@/Components/LoginModule";
 import axios from "axios";
+import SelectedBook from "@/Components/SelectedBook";
 
 export default function ForYou() {
   const [isOpen, setIsOpen] = useState(false);
     const [recommendedBooks, setRecommendedBooks] = useState([]);
     const [suggestedBooks, setSuggestedBooks] = useState([]);
+    const [selectedBook, setSelectedBook] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     
+          useEffect(() => {
+        axios.get('https://us-central1-summaristt.cloudfunctions.net/getBooks?status=selected')
+          .then(response => {
+            setSelectedBook(response.data);
+            setIsLoading(false);
+          })
+          .catch(error => {
+            console.error('Error fetching data:', error);
+            setIsLoading(false);
+          });
+      }, []);
       useEffect(() => {
         axios.get('https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended')
           .then(response => {
@@ -44,7 +57,7 @@ export default function ForYou() {
   return (
     <>
       <div className="wrapper">
-        <SearchBar />
+        <SearchBar setIsOpen={setIsOpen}/>
         <div className="sidebar__overlay">
           <Sidebar />
         </div>
@@ -52,40 +65,8 @@ export default function ForYou() {
           <div className="container">
             <div className="for-you__wrapper">
               <div className="for-you__title"> Selected just for you </div>
-              <a href="#" className="selected__book">
-                <div className="selected__book--subtitle">
-                  Book summary goes here
-                </div>
-                <div className="selected__book--divider"></div>
-                <div className="selected__book--content">
-                  <figure
-                    className="book__image--wrapper"
-                    style={{
-                      height: "140px",
-                      width: "140px",
-                      minWidth: "140px",
-                    }}
-                  >
-                    <img
-                      className="book__image"
-                      src="https://images-na.ssl-images-amazon.com/images/I/41N9Zy8n2L._SX331_BO1,204,203,200_.jpg"
-                      alt="Book Cover"
-                    />
-                  </figure>
-                  <div className="selected__book--details">
-                    <h3 className="selected__book--title">Book Title</h3>
-                    <p className="selected__book--author">Author Name</p>
-                    <div className="selected__book--duration-wrapper">
-                      <div className="selected__book--play-button">
-                        <FontAwesomeIcon icon={faPlay} />
-                      </div>
-                      <div className="selected__book--duration">10 min</div>
-                    </div>
-                  </div>
-                </div>
-              </a>
+              <SelectedBook selectedBook={selectedBook} />
               <div>
-                {/* probably move this to its own component to reuse */}
                 <div className="for-you__title"> Recommended For You </div>
                 <div className="for-you__sub-title">
                   We think you'll like these...
