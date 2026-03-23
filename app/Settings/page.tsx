@@ -6,10 +6,14 @@ import { auth } from "../Firebase/init.js";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { useEffect, useState } from "react";
 import LoginModule from "@/Components/LoginModule";
+import Router from "next/router";
+import { useRouter } from "next/navigation";
   
 export default function Settings() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
     const [isOpen, setIsOpen] = useState(false);
+    const router = useRouter();
+
 
 
   useEffect(() => {
@@ -23,7 +27,7 @@ export default function Settings() {
   if (currentUser?.isAnonymous) {
     return (
       <div className="wrapper">
-        <SearchBar />
+        <SearchBar setIsOpen={setIsOpen} />
         <div className="sidebar__overlay">
           <Sidebar />
         </div>
@@ -41,7 +45,7 @@ export default function Settings() {
   else {
   return (
     <div className="wrapper">
-      <SearchBar />
+      <SearchBar setIsOpen={setIsOpen} />
       <div className="sidebar__overlay">
         <Sidebar />
       </div>
@@ -51,6 +55,7 @@ export default function Settings() {
           <div className="settings__content">
             <div className="settings__sub-title">Subscription Plan</div>
             <div className="settings__text">Premium</div>
+            <button className="btn" style={{ maxWidth: "400px" }} onClick={() => router.push("/Subscriptions")}>Manage Subscription</button>
           </div>
         <div className="settings__content">
           <div className="settings__sub-title">Email</div>
