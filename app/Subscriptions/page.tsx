@@ -1,8 +1,65 @@
 "use client";
 import Footer from "@/Components/Footer";
 import subscriptionHeader from "@/public/pricing-top.png";
+import { auth } from "../Firebase/init.js";
+import { onAuthStateChanged, User } from "firebase/auth";
+import {
+  addDoc,
+  collection,
+  getFirestore,
+  onSnapshot,
+} from "firebase/firestore";
+import { FirebaseApp } from "firebase/app";
+import Router from "next/router";
+import { useRouter } from "next/navigation";
+
+
+export const getCheckoutUrl = async (
+  plan: string,
+  app: FirebaseApp,
+) => {
+  const userId = auth.currentUser?.uid;
+  if (!userId) {
+    throw new Error("User not authenticated");
+  }
+  const priceId = "prod_UDSyrwKg8JggNm";
+  const db = getFirestore(app);
+  const checkoutRef = collection(db, "checkout_sessions", "customers", userId, "sessions");
+  const docRef = await addDoc(checkoutRef, {
+    userId,
+    plan,
+    price: priceId,
+    success_url: window.location.origin + "/success",
+    cancel_url: window.location.origin + "/cancel",
+  });
+  return new Promise<string>((resolve, reject) => {
+
+    const unsubscribe = onSnapshot(docRef, (doc) => {
+      const {error, url} = doc.data() as {error ?: {message: string}, url?: string};
+      if (error) {
+        unsubscribe();
+        reject(new Error(error.message));
+      }
+      if (url) {
+        console.log("Stripe Checkout URL:", url);
+        unsubscribe();
+        resolve(url);
+      }
+    });
+    
+  })
+};
 
 export default function Subscriptions() {
+    throw new Error("Function not implemented.");
+  }
+      const upgradeToPremium = async () => {
+        const priceId = "prod_UDSyrwKg8JggNm";
+        const checkoutUrl = await getCheckoutUrl(priceId, app);
+        Router.push(checkoutUrl);
+        console.log ("upgraded");
+    };
+
   return (
     <div className="subscriptions">
       <div className="subscriptions__header--wrapper">
@@ -72,7 +129,7 @@ export default function Subscriptions() {
           </div>
           <div className="plan__card--cta">
             <span className="btn--wrapper">
-              <button style={{ width: "300px" }}>
+              <button onClick={() => upgradeToPremium()} className="btn" style={{ width: "300px" }}>
                 {" "}
                 <span>Start your 7-day free trial</span>
               </button>
