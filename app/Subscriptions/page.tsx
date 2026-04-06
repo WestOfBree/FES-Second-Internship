@@ -75,7 +75,7 @@ export default function Subscriptions() {
   const upgradeToPremium = async () => {
     try {
       await verifyUserDataLoaded();
-      const priceId = "prod_UDSyrwKg8JggNm";
+      const priceId = "price_1TF22BLRT1YOkZbR1Z0K5kEF";
       const checkoutUrl = await getCheckoutUrl(priceId);
       router.push(checkoutUrl);
       console.log("upgraded");

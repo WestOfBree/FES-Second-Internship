@@ -19,8 +19,7 @@ export const getCheckoutUrl = async (
 
   const db = getFirestore();
 
-  // Create a new checkout session document
-  // The Stripe extension listens to writes in this collection
+
   const checkoutSessionRef = collection(
     db,
     "customers",
