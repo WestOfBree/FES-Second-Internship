@@ -1,7 +1,7 @@
 "use client";
 import SearchBar from "@/Components/SearchBar";
 import Sidebar from "@/Components/Sidebar";
-import "./styles.css";
+import "./styles.modal.css";
 import { auth } from "../Firebase/init.js";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { useEffect, useState } from "react";

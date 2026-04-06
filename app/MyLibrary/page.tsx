@@ -1,5 +1,4 @@
 "use client";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SearchBar from "@/Components/SearchBar";
 import Sidebar from "@/Components/Sidebar";
 import "./styles.css";
@@ -18,7 +17,7 @@ export default function MyLibrary() {
     }, []);
   return (
     <div className="wrapper">
-      <SearchBar />
+      <SearchBar setIsOpen={undefined} />
       <div className="sidebar__overlay">
         <Sidebar />
       </div>

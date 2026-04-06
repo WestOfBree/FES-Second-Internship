@@ -2,10 +2,11 @@
 import { FirebaseApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import {
-  addDoc,
-  collection,
   getFirestore,
   onSnapshot,
+  doc,
+  addDoc,
+  collection,
 } from "firebase/firestore";
 import { getFunctions, httpsCallable } from "firebase/functions";
 
@@ -17,6 +18,9 @@ export const getCheckoutUrl = async (
   if (!userId) throw new Error("User is not authenticated");
 
   const db = getFirestore();
+
+  // Create a new checkout session document
+  // The Stripe extension listens to writes in this collection
   const checkoutSessionRef = collection(
     db,
     "customers",
@@ -28,24 +32,68 @@ export const getCheckoutUrl = async (
     price: priceId,
     success_url: window.location.origin,
     cancel_url: window.location.origin,
+    created: new Date(),
   });
 
   return new Promise<string>((resolve, reject) => {
-    const unsubscribe = onSnapshot(docRef, (snap) => {
-      const { error, url } = snap.data() as {
-        error?: { message: string };
-        url?: string;
-      };
-      if (error) {
+    let timeoutId: NodeJS.Timeout;
+
+    const unsubscribe = onSnapshot(
+      docRef,
+      (snap) => {
+        const data = snap.data();
+
+        if (!data) {
+          return;
+        }
+
+        const { error, url } = data as {
+          error?: { message: string };
+          url?: string;
+        };
+
+        // Check for error from the Stripe extension
+        if (error) {
+          clearTimeout(timeoutId);
+          unsubscribe();
+          console.error("Stripe Extension Error:", error);
+          reject(
+            new Error(
+              error.message ||
+                "Stripe checkout creation failed. Ensure your Stripe account is properly configured.",
+            ),
+          );
+          return;
+        }
+
+        // Check for successful URL
+        if (url) {
+          clearTimeout(timeoutId);
+          unsubscribe();
+          console.log("Stripe Checkout URL received:", url);
+          resolve(url);
+          return;
+        }
+      },
+      (error) => {
+        clearTimeout(timeoutId);
         unsubscribe();
-        reject(new Error(`An error occurred: ${error.message}`));
-      }
-      if (url) {
-        console.log("Stripe Checkout URL:", url);
-        unsubscribe();
-        resolve(url);
-      }
-    });
+        console.error("Firestore error:", error);
+        reject(
+          new Error("Failed to monitor checkout session: " + error.message),
+        );
+      },
+    );
+
+    // Timeout after 10 seconds - gives the extension time to process
+    timeoutId = setTimeout(() => {
+      unsubscribe();
+      reject(
+        new Error(
+          "Checkout session creation timed out. Please check your Stripe extension configuration.",
+        ),
+      );
+    }, 10000);
   });
 };
 
