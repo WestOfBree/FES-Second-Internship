@@ -33,12 +33,15 @@ export default function AudioPlayer({ bookInfo }) {
 
   React.useEffect(() => {
     console.log(audioRef);
-  }, []);
+    if (audioRef.current) {
+      audioRef.current.load();
+    }
+  }, [bookInfo]);
 
   return (
     <>
       <audio className="audio__player" ref={audioRef}>
-        <source src={bookInfo?.audioLink || null} type="audio/mpeg" />
+        <source src={bookInfo?.audioLink || ""} type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
       <div className="audio__track--wrapper">

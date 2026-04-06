@@ -1,6 +1,6 @@
 "use client";
 import { FirebaseApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
   getFirestore,
   onSnapshot,

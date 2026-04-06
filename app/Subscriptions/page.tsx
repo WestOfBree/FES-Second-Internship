@@ -32,18 +32,49 @@ export default function Subscriptions() {
   const [selectedPlan, setSelectedPlan] = useState<"yearly" | "monthly">(
     "yearly",
   );
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
+
+
+
 
   const toggleAccordion = (index: number) => {
     setOpenAccordion((prev) => (prev === index ? null : index));
   };
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+      setUser(authUser);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const verifyUserDataLoaded = async (): Promise<User> => {
+    if (auth.currentUser) {
+      return auth.currentUser;
+    }
+
+    if (!loading && !user) {
+      throw new Error("Please sign in first");
+    }
+
+    return new Promise<User>((resolve, reject) => {
+      const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+        unsubscribe();
+        if (authUser) {
+          resolve(authUser);
+          return;
+        }
+        reject(new Error("Please sign in first"));
+      });
+    });
+  };
+
   const upgradeToPremium = async () => {
     try {
-      const user = auth.currentUser;
-      if (!user) {
-        alert("Please sign in first");
-        return;
-      }
+      await verifyUserDataLoaded();
       const priceId = "prod_UDSyrwKg8JggNm";
       const checkoutUrl = await getCheckoutUrl(priceId);
       router.push(checkoutUrl);
