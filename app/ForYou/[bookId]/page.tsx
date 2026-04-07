@@ -37,7 +37,6 @@ export default function BookInfo({params}: {params: Promise<{bookId: string}>}) 
         const [bookInfo, setBookInfo] = useState<BookInfoProps | null>(null);
       const [isLoading, setIsLoading] = useState(true);
       const [setIsOpen] = useState(false);
-console.log(bookId);
 
       useEffect(() => {
         axios.get(`https://us-central1-summaristt.cloudfunctions.net/getBook?id=${bookId}`)

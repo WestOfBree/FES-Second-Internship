@@ -34,9 +34,8 @@ export default function Subscriptions() {
   );
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
-
-
-
+  let yearlyPriceId = "price_1TJKiOLRT1YOkZbRONh04vsf";
+  let monthlyPriceId = "price_1TF22BLRT1YOkZbR1Z0K5kEF";
 
   const toggleAccordion = (index: number) => {
     setOpenAccordion((prev) => (prev === index ? null : index));
@@ -75,7 +74,8 @@ export default function Subscriptions() {
   const upgradeToPremium = async () => {
     try {
       await verifyUserDataLoaded();
-      const priceId = "price_1TF22BLRT1YOkZbR1Z0K5kEF";
+      const priceId =
+        selectedPlan === "yearly" ? yearlyPriceId : monthlyPriceId;
       const checkoutUrl = await getCheckoutUrl(priceId);
       router.push(checkoutUrl);
       console.log("upgraded");
@@ -84,7 +84,7 @@ export default function Subscriptions() {
       alert("Failed to upgrade. Please try again.");
     }
   };
-
+  console.log("Current plan selected:", selectedPlan);
   return (
     <div className="subscriptions">
       <div className="subscriptions__header--wrapper">
@@ -132,7 +132,9 @@ export default function Subscriptions() {
               </div>
             </div>
           </div>
-          <div className="section__title">Choose the plan that fits you</div>
+          <div className="section__title subscriptions__section--title">
+            Choose the plan that fits you
+          </div>
           <div
             className={`plan__card ${selectedPlan === "yearly" ? "plan__card--active" : ""}`}
             onClick={() => setSelectedPlan("yearly")}
@@ -168,19 +170,40 @@ export default function Subscriptions() {
             </div>
           </div>
           <div className="plan__card--cta">
-            <span className="btn--wrapper">
-              <button
-                onClick={() => upgradeToPremium()}
-                className="btn"
-                style={{ width: "300px" }}
-              >
-                {" "}
-                <span>Start your 7-day free trial</span>
-              </button>
-            </span>
-            <div className="plan__disclaimer">
-              Cancel anytime. No commitment.
-            </div>
+            {selectedPlan === "yearly" ? (
+              <>
+                <span className="btn--wrapper">
+                  <button
+                    onClick={() => upgradeToPremium()}
+                    className="btn"
+                    style={{ width: "300px" }}
+                  >
+                    {" "}
+                    <span>Start your 7-day free trial</span>
+                  </button>
+                </span>
+                <div className="plan__disclaimer">
+                  Cancel your trial at any time before it ends, and you won't be
+                  charged.
+                </div>
+              </>
+            ) : (
+              <>
+                <span className="btn--wrapper">
+                  <button
+                    onClick={() => upgradeToPremium()}
+                    className="btn"
+                    style={{ width: "300px" }}
+                  >
+                    {" "}
+                    <span>Start your first month</span>
+                  </button>
+                </span>
+                <div className="plan__disclaimer">
+                  30-day money back guarantee, no questions asked.
+                </div>
+              </>
+            )}
           </div>
           <div className="faq--wrapper">
             <div className="accordion__card">

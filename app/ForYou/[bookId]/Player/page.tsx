@@ -11,6 +11,7 @@ export default function Player({params}: {params: Promise<{bookId: string}>}) {
         const { bookId } = use(params);
         const [bookInfo, setBookInfo] = useState<any | null>(null);
         const [isLoading, setIsLoading] = useState(true);
+        const [isOpen, setIsOpen] = useState(false);
   console.log(bookId);
   
         useEffect(() => {
@@ -27,7 +28,7 @@ export default function Player({params}: {params: Promise<{bookId: string}>}) {
         }, [bookId]);
   return (
     <div className="wrapper">
-      <SearchBar />
+      <SearchBar setIsOpen={setIsOpen} />
       <div className="sidebar__overlay">
         <Sidebar /> 
       </div>
