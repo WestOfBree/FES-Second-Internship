@@ -11,6 +11,27 @@ import React from "react";
 export default function AudioPlayer({ bookInfo }) {
   const audioRef = React.useRef(null);
   const [isPlaying, setIsPlaying] = React.useState(false);
+  const [currentTime, setCurrentTime] = React.useState(0);
+  const [duration, setDuration] = React.useState(0);
+
+  const formatTime = (timeInSeconds) => {
+    if (!Number.isFinite(timeInSeconds) || timeInSeconds < 0) {
+      return "00:00";
+    }
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = Math.floor(timeInSeconds % 60)
+      .toString()
+      .padStart(2, "0");
+    return `${minutes}:${seconds}`;
+  };
+
+  const getProgressPercent = () => {
+    if (!duration) {
+      return 0;
+    }
+    return (currentTime / duration) * 100;
+  };
+
   const togglePlay = async () => {
     try {
       if (audioRef.current) {
@@ -25,22 +46,70 @@ export default function AudioPlayer({ bookInfo }) {
       console.error("Error playing audio:", error);
     }
   };
+
   const handleTimeUpdate = () => {
     if (audioRef.current) {
-      const currentTime = audioRef.current.currentTime;
+      setCurrentTime(audioRef.current.currentTime);
+      setDuration(audioRef.current.duration || 0);
     }
+  };
+
+  const handleSeek = (e) => {
+    const seekTime = Number(e.target.value);
+    if (audioRef.current) {
+      audioRef.current.currentTime = seekTime;
+    }
+    setCurrentTime(seekTime);
+  };
+
+  const handleLoadedMetadata = () => {
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration || 0);
+      setCurrentTime(audioRef.current.currentTime || 0);
+    }
+  };
+
+  const handleEnded = () => {
+    setIsPlaying(false);
+    setCurrentTime(0);
+  };
+
+  const handleSkip = (direction) => {
+    if (!audioRef.current) {
+      return;
+    }
+
+    const skipAmount = 10;
+    const nextUnclampedTime = audioRef.current.currentTime + direction * skipAmount;
+    const hasDuration = Number.isFinite(audioRef.current.duration) && audioRef.current.duration > 0;
+
+    const nextTime = hasDuration
+      ? Math.min(Math.max(nextUnclampedTime, 0), audioRef.current.duration)
+      : Math.max(nextUnclampedTime, 0);
+
+    audioRef.current.currentTime = nextTime;
+    setCurrentTime(nextTime);
   };
 
   React.useEffect(() => {
     console.log(audioRef);
     if (audioRef.current) {
       audioRef.current.load();
+      setCurrentTime(0);
+      setDuration(0);
+      setIsPlaying(false);
     }
   }, [bookInfo]);
 
   return (
     <>
-      <audio className="audio__player" ref={audioRef}>
+      <audio
+        className="audio__player"
+        ref={audioRef}
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
+        onEnded={handleEnded}
+      >
         <source src={bookInfo?.audioLink || null} type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
@@ -69,7 +138,7 @@ export default function AudioPlayer({ bookInfo }) {
       </div>
       <div className="audio__controls--wrapper">
         <div className="audio__controls">
-          <button className="audio__control--button">
+          <button className="audio__control--button" onClick={() => handleSkip(-1)}>
             <FontAwesomeIcon
               icon={faArrowRotateBack}
               style={{
@@ -86,7 +155,7 @@ export default function AudioPlayer({ bookInfo }) {
               style={{ height: "40px", width: "40px", color: "#fff" }}
             />
           </button>
-          <button className="audio__control--button">
+          <button className="audio__control--button" onClick={() => handleSkip(1)}>
             <FontAwesomeIcon
               icon={faArrowRotateForward}
               style={{
@@ -100,20 +169,20 @@ export default function AudioPlayer({ bookInfo }) {
         </div>
       </div>
       <div className="audio__progress--wrapper">
-        <div className="audio__time"> 00:00</div>
+        <div className="audio__time">{formatTime(currentTime)}</div>
         <input
-          onChange={(e) => {handleTimeUpdate(e)}}
+          onChange={handleSeek}
           type="range"
           className="audio__progress--bar"
           min="0"
-          max="204.048"
-          value="0"
+          max={duration || 0}
+          value={currentTime}
           style={{
             background:
-              "linear-gradient(to right, rgb(43, 217, 124) 0%, rgb(109.120,125)0%); --range-progress: 0%",
+              `linear-gradient(to right, rgb(43, 217, 124) ${getProgressPercent()}%, rgb(109, 120, 125) ${getProgressPercent()}%)`,
           }}
         />
-        <div className="audio__time">00:00</div>
+        <div className="audio__time">-{formatTime(duration - currentTime)}</div>
       </div>
     </>
   );
