@@ -28,10 +28,8 @@ export default function Player({params}: {params: Promise<{bookId: string}>}) {
         }, [bookId]);
   return (
     <div className="wrapper">
-      <SearchBar setIsOpen={setIsOpen} />
-      <div className="sidebar__overlay">
-        <Sidebar /> 
-      </div>
+      <SearchBar setIsOpen={setIsOpen}  />
+      <Sidebar /> 
       <div className="summary">
         <div className="audio__book--summary">
           <div className="audio__book--summary-title">

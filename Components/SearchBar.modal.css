@@ -56,7 +56,16 @@
   height: 24px;
   color: #042330;
 }
-
+.sidebar__toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  cursor: pointer;
+}
 /* SEARCH RESULTS STYLES */
 .search__results--wrapper {
   display: flex;

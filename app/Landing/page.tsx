@@ -10,7 +10,7 @@ export default function HomePage() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <main>
+    <div className="wrapper">
       <section id="landing">
         <div className="container">
           <div className="row">
@@ -246,6 +246,6 @@ export default function HomePage() {
         </div>
       </div>
     </section>
-        </main>
+        </div>
     );
 }

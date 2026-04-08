@@ -1,28 +1,16 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faBars } from "@fortawesome/free-solid-svg-icons";
 import "./SearchBar.modal.css";
 import { useRef } from "react";
 import Router from "next/link";
 import React from "react";
 import { height } from "@fortawesome/free-brands-svg-icons/fa11ty";
+import { useState } from "react";
 
 export default function SearchBar( { setIsOpen } ) {
   const debounceTimeout = 1000;
   const [userQuery, setUserQuery] = React.useState("");
   const timeoutRef = useRef(null);
-
-  // const handleSearch = (event) => {
-  //   const query = event.target.value;
-  //   setUserQuery(query);
-  //   if (timeoutRef.current) {
-  //     clearTimeout(timeoutRef.current);
-  //   }
-  //   timeoutRef.current = setTimeout(() => {
-  //     const searchUrl = `https://us-central1-summaristt.cloudfunctions.net/getBooksByAuthorOrTitle?search=${query}`;
-  //     console.log("Search URL:", searchUrl);
-  //   }, debounceTimeout);
-  // };
-
   const [searchResults, setSearchResults] = React.useState([]);
 
   const handleSearch = (event) => {
@@ -42,6 +30,12 @@ export default function SearchBar( { setIsOpen } ) {
       }
     }, debounceTimeout);
   };
+    function openSidebar() {
+    const sidebar = document.querySelector(".sidebar");
+    const overlay = document.querySelector(".sidebar__overlay");
+    overlay?.classList.remove("sidebar__overlay--hidden");
+    sidebar?.classList.add("sidebar--open");
+  }
 
   return (
     <div className="search__background">
@@ -62,12 +56,21 @@ export default function SearchBar( { setIsOpen } ) {
                 />
               </div>
             </div>
+            <div className="sidebar__toggle"> 
+              <FontAwesomeIcon
+                className="sidebar__toggle--icon"
+                icon={faBars}
+                onClick={() => {
+                  openSidebar();
+                }}
+              />
+            </div>
           </div>
           {userQuery && (
             <div className="search__results--wrapper">
               {searchResults.map((result) => (
                 <Router 
-                href={!result.subscriptionRequired ? `/ForYou/${result.id}` : "#"}
+                  href={!result.subscriptionRequired ? `/ForYou/${result.id}` : "#"}
                   key={result.id}
                   className="search__result--link"
                   onClick={() => {
