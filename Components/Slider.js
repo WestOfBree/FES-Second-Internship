@@ -34,22 +34,27 @@ export default ({ setIsOpen, books }) => {
     <Swiper
       modules={[Pagination, A11y]}
       spaceBetween={50}
-      slidesPerView={4}
+      slidesPerView={1}
+      breakpoints={{
+        640: {
+          slidesPerView: 2
+        },
+        768: {
+          slidesPerView: 3
+        },
+        1200: {
+          slidesPerView: 4
+        }
+      }}
       pagination={{ clickable: true }}
       onSwiper={(swiper) => console.log(swiper)}
       onSlideChange={() => console.log("slide change")}
     >
       {books.map((book, index) => (
         <SwiperSlide key={index}>
-          {book.subscriptionRequired ? (
-            <Router onClick={() => setIsOpen(true)} href="#">
-              <Book {...book} />
-            </Router>
-          ) : (
             <Router href={`/ForYou/${book.id}`}>
               <Book {...book} />
             </Router>
-          )}
         </SwiperSlide>
       ))}
     </Swiper>

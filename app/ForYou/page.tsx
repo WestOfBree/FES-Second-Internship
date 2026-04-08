@@ -15,52 +15,73 @@ import SelectedBook from "@/Components/SelectedBook";
 
 export default function ForYou() {
   const [isOpen, setIsOpen] = useState(false);
-    const [recommendedBooks, setRecommendedBooks] = useState([]);
-    const [suggestedBooks, setSuggestedBooks] = useState([]);
-    const [selectedBook, setSelectedBook] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    
-          useEffect(() => {
-        axios.get('https://us-central1-summaristt.cloudfunctions.net/getBooks?status=selected')
-          .then(response => {
-            setSelectedBook(response.data);
-            setIsLoading(false);
-          })
-          .catch(error => {
-            console.error('Error fetching data:', error);
-            setIsLoading(false);
-          });
-      }, []);
-      useEffect(() => {
-        axios.get('https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended')
-          .then(response => {
-            setRecommendedBooks(response.data);
-            setIsLoading(false);
-          })
-          .catch(error => {
-            console.error('Error fetching data:', error);
-            setIsLoading(false);
-          });
-      }, []);
-            useEffect(() => {
-        axios.get('https://us-central1-summaristt.cloudfunctions.net/getBooks?status=suggested')
-          .then(response => {
-            setSuggestedBooks(response.data);
-            setIsLoading(false);
-          })
-          .catch(error => {
-            console.error('Error fetching data:', error);
-            setIsLoading(false);
-          });
-      }, []);
+  const [recommendedBooks, setRecommendedBooks] = useState([]);
+  const [suggestedBooks, setSuggestedBooks] = useState([]);
+  const [selectedBook, setSelectedBook] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    axios
+      .get(
+        "https://us-central1-summaristt.cloudfunctions.net/getBooks?status=selected",
+      )
+      .then((response) => {
+        setSelectedBook(response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setIsLoading(false);
+      });
+  }, []);
+  useEffect(() => {
+    axios
+      .get(
+        "https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended",
+      )
+      .then((response) => {
+        setRecommendedBooks(response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setIsLoading(false);
+      });
+  }, []);
+  useEffect(() => {
+    axios
+      .get(
+        "https://us-central1-summaristt.cloudfunctions.net/getBooks?status=suggested",
+      )
+      .then((response) => {
+        setSuggestedBooks(response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setIsLoading(false);
+      });
+  }, []);
+  // function openSidebar() {
+  //   const sidebar = document.querySelector(".sidebar");
+  //   const overlay = document.querySelector(".sidebar__overlay");
+  //   overlay?.classList.remove("sidebar__overlay--hidden");
+  //   sidebar?.classList.add("sidebar--open");
+  // }
+
+  // function closeSidebar() {
+  //   const sidebar = document.querySelector(".sidebar");
+  //   const overlay = document.querySelector(".sidebar__overlay");
+  //   overlay?.classList.add("sidebar__overlay--hidden");
+  //   sidebar?.classList.remove("sidebar--open");
+  // }
 
   return (
     <>
       <div className="wrapper">
         <SearchBar setIsOpen={setIsOpen}/>
-        <div className="sidebar__overlay">
-          <Sidebar />
-        </div>
+        <Sidebar />
+        {/* <div onClick={closeSidebar} className="sidebar__overlay sidebar__overlay--hidden"></div> */}
         <div className="row">
           <div className="container">
             <div className="for-you__wrapper">
@@ -73,7 +94,9 @@ export default function ForYou() {
                 </div>
                 <div className="for-you__recommended--books">
                   <Slider setIsOpen={setIsOpen} books={recommendedBooks} />
-                  {isOpen && <LoginModule isOpen={isOpen} setIsOpen={setIsOpen} />}
+                  {isOpen && (
+                    <LoginModule isOpen={isOpen} setIsOpen={setIsOpen} />
+                  )}
                 </div>
               </div>
               <div>
@@ -81,7 +104,9 @@ export default function ForYou() {
                 <div className="for-you__sub-title">Browse other books</div>
                 <div className="for-you__recommended--books">
                   <Slider setIsOpen={setIsOpen} books={suggestedBooks} />
-                  {isOpen && <LoginModule isOpen={isOpen} setIsOpen={setIsOpen} />}
+                  {isOpen && (
+                    <LoginModule isOpen={isOpen} setIsOpen={setIsOpen} />
+                  )}
                 </div>
               </div>
             </div>

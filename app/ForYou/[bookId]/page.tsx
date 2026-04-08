@@ -11,16 +11,18 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import SearchBar from "@/Components/SearchBar";
+import LoginModule from "@/Components/LoginModule";
 import "./styles.css";
 import { use, useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
+import Router from "next/router";
 
 interface BookInfoProps {
   id: string;
   title: string;
   author: string;
-  subtitle: string;
+  subTitle: string;
   averageRating: number;
   totalRatings: number;
   duration: string;
@@ -30,13 +32,15 @@ interface BookInfoProps {
   tags: string[];
   imageLink: string;
   keyIdeas: number;
+  subscriptionRequired: boolean;
 }
 
 export default function BookInfo({params}: {params: Promise<{bookId: string}>}) {
       const { bookId } = use(params);
         const [bookInfo, setBookInfo] = useState<BookInfoProps | null>(null);
       const [isLoading, setIsLoading] = useState(true);
-      const [setIsOpen] = useState(false);
+      const [isOpen, setIsOpen] = useState(false);
+
 
       useEffect(() => {
         axios.get(`https://us-central1-summaristt.cloudfunctions.net/getBook?id=${bookId}`)
@@ -54,17 +58,15 @@ export default function BookInfo({params}: {params: Promise<{bookId: string}>}) 
   return (
     <>
       <div className="wrapper">
-        <SearchBar setIsOpen={setIsOpen}/>
-      <div className="sidebar__overlay">
-        <Sidebar />
-      </div>
+        <SearchBar setIsOpen={setIsOpen}  />
+      <Sidebar  />
       <div className="row">
         <div className="container">
           <div className="inner__wrapper">
             <div className="inner__book">
               <div className="inner-book__title">{bookInfo?.title}</div>
               <div className="inner-book__author">{bookInfo?.author}</div>
-              <div className="inner-book__subtitle">{bookInfo?.subtitle}</div>
+              <div className="inner-book__subtitle">{bookInfo?.subTitle}</div>
               <div className="inner-book__wrapper">
                 <div className="inner-book__description--wrapper">
                   <div className="inner-book__description">
@@ -101,14 +103,37 @@ export default function BookInfo({params}: {params: Promise<{bookId: string}>}) 
                 </div>
               </div>
               <div className="inner-book__read--btn-wrapper">
-                <Link href={`/ForYou/${bookId}/Player`}>
-                  <button className="inner-book__read--btn">
+              {bookInfo?.subscriptionRequired  ? (
+                <button 
+                  className="inner-book__read--btn"
+                  onClick={() => setIsOpen(true)}
+                >
                   <div className="inner-book__read--icon">
                     <FontAwesomeIcon icon={faBook} />
                   </div>
-                  <div className="inner-book__read--text">Read Now</div>
+                  <div className="inner-book__read--text">Login to Read</div>
+                </button>
+              ) : (
+                <Link href={`/ForYou/${bookId}/Player`}>
+                  <button className="inner-book__read--btn">
+                    <div className="inner-book__read--icon">
+                      <FontAwesomeIcon icon={faBook} />
+                    </div>
+                    <div className="inner-book__read--text">Read Now</div>
                   </button>
                 </Link>
+              )}
+              {bookInfo?.subscriptionRequired  ? (
+                <button 
+                  className="inner-book__read--btn"
+                  onClick={() => setIsOpen(true)}
+                >
+                  <div className="inner-book__read--icon">
+                    <FontAwesomeIcon icon={faMicrophone} />
+                  </div>
+                  <div className="inner-book__read--text">Login to Listen</div>
+                </button>
+              ) : (
                 <Link href={`/ForYou/${bookId}/Player`}>
                   <button className="inner-book__read--btn">
                   <div className="inner-book__read--icon">
@@ -116,13 +141,13 @@ export default function BookInfo({params}: {params: Promise<{bookId: string}>}) 
                   </div>
                   <div className="inner-book__read--text">Listen Now</div>
                   </button>
-                </Link>
+                </Link>)}
               </div>
               <div className="inner-book__bookmark">
                 <div className="inner-book__bookmark--icon">
                   <FontAwesomeIcon icon={faBookmark} />
                 </div>
-                <div className="inner-book__bookmark--text">
+                <div className="inner-book__bookmark--text no-click ">
                   Add to My Library
                 </div>
               </div>
@@ -132,7 +157,11 @@ export default function BookInfo({params}: {params: Promise<{bookId: string}>}) 
               <div className="inner-book__tags--wrapper">
                 
                   <div className="inner-book__tag">
-                    #tag1
+                    {bookInfo?.tags[0]}
+                  </div>
+                  <div className="inner-book__tag">
+                    {bookInfo?.tags[1]}
+
                   </div>
               </div>
               <div className="inner-book__book--description">
@@ -158,6 +187,7 @@ export default function BookInfo({params}: {params: Promise<{bookId: string}>}) 
           </div>
         </div>
       </div>
+      {isOpen && <LoginModule setIsOpen={setIsOpen} isOpen={isOpen} />}
       </div>
     </>
   );

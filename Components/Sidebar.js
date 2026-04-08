@@ -1,3 +1,4 @@
+"use client";
 import {
   faMagnifyingGlass,
   faBookBookmark,
@@ -14,6 +15,8 @@ import logo from "../public/logo.png";
 import Router from "next/link";
 import { auth } from "@/app/Firebase/init";
 import { signOut } from "firebase/auth";
+import { useState } from "react";
+import Link from "next/link";
 
 function logout() {
   signOut(auth)
@@ -27,17 +30,36 @@ function logout() {
 
 
 export default function Sidebar( ) {
+  function closeSidebar() {
+    const sidebar = document.querySelector(".sidebar");
+    const overlay = document.querySelector(".sidebar__overlay");
+    overlay?.classList.add("sidebar__overlay--hidden");
+    sidebar?.classList.remove("sidebar--open");
+  }
+
+
+  const [sidebarHeight, setSidebarHeight] = useState("100vh");
+
+  useState(() => {
+    if (typeof window !== "undefined") {
+      const isPlayerPage = window.location.pathname.includes("/Player");
+      setSidebarHeight(isPlayerPage ? "calc(-240px + 100vh)" : "");
+    }
+  }, []);
+
   return (
-    <div className="sidebar">
-      <div className="sidebar__header">
-        <img className="sidebar__header--icon" src={logo.src} alt="logo" />
-      </div>
-      <div className="sidebar__wrapper">
-        <div className="sidebar__menu--top">
-          <Router href="/ForYou" className="sidebar__link--wrapper">
-            <div className="sidebar__link--line"></div>
-            <div className="sidebar__icon--wrapper">  <FontAwesomeIcon icon={faHouse} />  </div> For you
-          </Router>
+    <>
+      <div onClick={closeSidebar} className="sidebar__overlay sidebar__overlay--hidden"></div>
+      <div className="sidebar" >
+        <div className="sidebar__header">
+          <Router href="/Landing"><img className="sidebar__header--icon" src={logo.src} alt="logo" /></Router>
+        </div>
+        <div className="sidebar__wrapper" style={{ height: sidebarHeight }}>
+          <div className="sidebar__menu--top">
+            <Router href="/ForYou" className="sidebar__link--wrapper">
+              <div className="sidebar__link--line"></div>
+              <div className="sidebar__icon--wrapper">  <FontAwesomeIcon icon={faHouse} />  </div> For you
+            </Router>
           <Router href="/MyLibrary" className="sidebar__link--wrapper">
             <div className="sidebar__link--line"></div>
             <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faBookBookmark} /> </div> My Library
@@ -68,5 +90,6 @@ export default function Sidebar( ) {
         </div>
       </div>
     </div>
+    </>
   );
 }

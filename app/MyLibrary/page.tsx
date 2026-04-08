@@ -18,9 +18,7 @@ export default function MyLibrary() {
   return (
     <div className="wrapper">
       <SearchBar setIsOpen={undefined} />
-      <div className="sidebar__overlay">
-        <Sidebar />
-      </div>
+      <Sidebar />
       <div className="row">
         <div className="container">
             <div className="section__title page__title">Saved Books</div>

@@ -28,9 +28,7 @@ export default function Settings() {
     return (
       <div className="wrapper">
         <SearchBar setIsOpen={setIsOpen} />
-        <div className="sidebar__overlay">
-          <Sidebar />
-        </div>
+        <Sidebar />
         <div className="row">
           <div className="container">
             <div className="section__title page__title">Please Log In</div>
@@ -46,9 +44,7 @@ export default function Settings() {
   return (
     <div className="wrapper">
       <SearchBar setIsOpen={setIsOpen} />
-      <div className="sidebar__overlay">
-        <Sidebar />
-      </div>
+      <Sidebar />
       <div className="row">
         <div className="container">
           <div className="section__title page__title">Settings</div>

@@ -8,7 +8,9 @@
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
 }
-
+.no-click {
+  cursor: not-allowed;
+}
 body {
   max-width: 100%;
   overflow-x: hidden;
@@ -95,6 +97,7 @@ button:disabled {
   margin-bottom: 32px;
   font-weight: bold;
 }
+
 
 /* NAVBAR */
 .nav {
@@ -455,6 +458,12 @@ button:disabled {
 }
 
 @media (max-width: 768px) {
+  @media (max-width: 768px) {
+    .wrapper {
+      margin-left: 0 !important;
+      width: 100% !important;
+    }
+  }
   .landing__content {
     display: flex;
     flex-direction: column;
