@@ -1,6 +1,6 @@
 import "./Book.modal.css";
 import { FaStar, FaClock} from "react-icons/fa";
-import { Router } from "next/link";
+import Image from "next/image";
 
 export default function Book({ title, author, subtitle, duration, averageRating, imageLink, subscriptionRequired }) {
   return (
@@ -11,10 +11,12 @@ export default function Book({ title, author, subtitle, duration, averageRating,
             className="book__image--wrapper"
             style={{ marginBottom: "8px" }}
           >
-          <img
+          <Image
             className="book__image"
             src={imageLink}
             alt={`Cover of ${title}`}
+            width={140}
+            height={140}
           />
         </figure>
           <div className="recommended__book--title">{title}</div>

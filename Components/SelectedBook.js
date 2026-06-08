@@ -3,6 +3,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import Router from "next/link";
+import Image from "next/image";
 export default function SelectedBook( { selectedBook } ) {
   if (!selectedBook || selectedBook.length === 0) {
     return null;
@@ -22,10 +23,12 @@ export default function SelectedBook( { selectedBook } ) {
                       minWidth: "140px",
                     }}
                   >
-                    <img
+                    <Image
                       className="book__image"
                       src={selectedBook[0]?.imageLink}
                       alt="Book Cover"
+                      width={140}
+                      height={140}
                     />
                   </figure>
                   <div className="selected__book--details">

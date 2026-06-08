@@ -8,27 +8,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Router from "next/link";
-import { useState, useEffect } from "react";
-import axios from "axios";
 
-export default ({ setIsOpen, books }) => {
-  const [recommendedBooks, setRecommendedBooks] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    axios
-      .get(
-        "https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended",
-      )
-      .then((response) => {
-        setRecommendedBooks(response.data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        setIsLoading(false);
-      });
-  }, []);
+const Slider = ({ books }) => {
 
   return (
     <Swiper
@@ -60,3 +41,5 @@ export default ({ setIsOpen, books }) => {
     </Swiper>
   );
 };
+
+export default Slider;

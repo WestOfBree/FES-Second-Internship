@@ -15,8 +15,7 @@ import logo from "../public/logo.png";
 import Router from "next/link";
 import { auth } from "@/app/Firebase/init";
 import { signOut } from "firebase/auth";
-import { useState } from "react";
-import Link from "next/link";
+import { useEffect, useState } from "react";
 
 function logout() {
   signOut(auth)
@@ -40,11 +39,9 @@ export default function Sidebar( ) {
 
   const [sidebarHeight, setSidebarHeight] = useState("100vh");
 
-  useState(() => {
-    if (typeof window !== "undefined") {
-      const isPlayerPage = window.location.pathname.includes("/Player");
-      setSidebarHeight(isPlayerPage ? "calc(-240px + 100vh)" : "");
-    }
+  useEffect(() => {
+    const isPlayerPage = window.location.pathname.includes("/Player");
+    setSidebarHeight(isPlayerPage ? "calc(-240px + 100vh)" : "100vh");
   }, []);
 
   return (
