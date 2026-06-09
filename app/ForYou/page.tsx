@@ -1,7 +1,5 @@
 "use client";
-import { faMagnifyingGlass, faPlay } from "@fortawesome/free-solid-svg-icons";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 config.autoAddCss = false;
@@ -13,12 +11,16 @@ import LoginModule from "@/Components/LoginModule";
 import axios from "axios";
 import SelectedBook from "@/Components/SelectedBook";
 
+type BookItem = {
+  id?: string | number;
+  [key: string]: unknown;
+};
+
 export default function ForYou() {
   const [isOpen, setIsOpen] = useState(false);
-  const [recommendedBooks, setRecommendedBooks] = useState([]);
-  const [suggestedBooks, setSuggestedBooks] = useState([]);
-  const [selectedBook, setSelectedBook] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [recommendedBooks, setRecommendedBooks] = useState<BookItem[]>([]);
+  const [suggestedBooks, setSuggestedBooks] = useState<BookItem[]>([]);
+  const [selectedBook, setSelectedBook] = useState<BookItem[]>([]);
 
   useEffect(() => {
     axios
@@ -27,11 +29,9 @@ export default function ForYou() {
       )
       .then((response) => {
         setSelectedBook(response.data);
-        setIsLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
-        setIsLoading(false);
       });
   }, []);
   useEffect(() => {
@@ -41,11 +41,9 @@ export default function ForYou() {
       )
       .then((response) => {
         setRecommendedBooks(response.data);
-        setIsLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
-        setIsLoading(false);
       });
   }, []);
   useEffect(() => {
@@ -55,11 +53,9 @@ export default function ForYou() {
       )
       .then((response) => {
         setSuggestedBooks(response.data);
-        setIsLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
-        setIsLoading(false);
       });
   }, []);
   // function openSidebar() {
@@ -77,42 +73,47 @@ export default function ForYou() {
   // }
 
   return (
-    <>
-      <div className="wrapper">
-        <SearchBar setIsOpen={setIsOpen}/>
-        <Sidebar />
-        {/* <div onClick={closeSidebar} className="sidebar__overlay sidebar__overlay--hidden"></div> */}
-        <div className="row">
-          <div className="container">
-            <div className="for-you__wrapper">
-              <div className="for-you__title"> Selected just for you </div>
+    <div className="wrapper">
+      <header>
+        <SearchBar setIsOpen={setIsOpen} />
+      </header>
+      <Sidebar />
+      <main className="row" id="main-content">
+        <div className="container">
+          <div className="for-you__wrapper">
+            <h1 className="visually-hidden">For You</h1>
+
+            <section aria-labelledby="selected-for-you-heading">
+              <h2 className="for-you__title" id="selected-for-you-heading">
+                Selected just for you
+              </h2>
               <SelectedBook selectedBook={selectedBook} />
-              <div>
-                <div className="for-you__title"> Recommended For You </div>
-                <div className="for-you__sub-title">
-                  We think you'll like these...
-                </div>
-                <div className="for-you__recommended--books">
-                  <Slider setIsOpen={setIsOpen} books={recommendedBooks} />
-                  {isOpen && (
-                    <LoginModule isOpen={isOpen} setIsOpen={setIsOpen} />
-                  )}
-                </div>
-              </div>
-              <div>
-                <div className="for-you__title"> Suggested Books </div>
-                <div className="for-you__sub-title">Browse other books</div>
-                <div className="for-you__recommended--books">
-                  <Slider setIsOpen={setIsOpen} books={suggestedBooks} />
-                  {isOpen && (
-                    <LoginModule isOpen={isOpen} setIsOpen={setIsOpen} />
-                  )}
-                </div>
-              </div>
+            </section>
+
+            <section aria-labelledby="recommended-for-you-heading">
+              <h2 className="for-you__title" id="recommended-for-you-heading">
+                Recommended For You
+              </h2>
+              <p className="for-you__sub-title">We think you&apos;ll like these...</p>
+              <div className="for-you__recommended--books">
+                <Slider books={recommendedBooks} />
+                {isOpen && <LoginModule isOpen={isOpen} setIsOpen={setIsOpen} />}
             </div>
+            </section>
+
+            <section aria-labelledby="suggested-books-heading">
+              <h2 className="for-you__title" id="suggested-books-heading">
+                Suggested Books
+              </h2>
+              <p className="for-you__sub-title">Browse other books</p>
+              <div className="for-you__recommended--books">
+                <Slider books={suggestedBooks} />
+                {isOpen && <LoginModule isOpen={isOpen} setIsOpen={setIsOpen} />}
+              </div>
+            </section>
           </div>
         </div>
-      </div>
-    </>
+      </main>
+    </div>
   );
 }

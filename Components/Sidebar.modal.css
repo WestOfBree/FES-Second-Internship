@@ -67,6 +67,13 @@ flex-direction: column;
     cursor: pointer;
     color: #032b41;
     z-index: 1;
+    width: 100%;
+    border: none;
+    background: transparent;
+    text-align: left;
+    font: inherit;
+    padding: 0;
+    text-decoration: none;
 }
 .sidebar__link--line{
     width: 5px;

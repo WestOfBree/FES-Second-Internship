@@ -46,12 +46,12 @@ export default function Sidebar( ) {
 
   return (
     <>
-      <div onClick={closeSidebar} className="sidebar__overlay sidebar__overlay--hidden"></div>
-      <div className="sidebar" >
+      <div onClick={closeSidebar} className="sidebar__overlay sidebar__overlay--hidden" aria-hidden="true"></div>
+      <aside className="sidebar" aria-label="Primary navigation sidebar">
         <div className="sidebar__header">
           <Router href="/Landing"><img className="sidebar__header--icon" src={logo.src} alt="logo" /></Router>
         </div>
-        <div className="sidebar__wrapper" style={{ height: sidebarHeight }}>
+        <nav className="sidebar__wrapper" style={{ height: sidebarHeight }} aria-label="Primary navigation">
           <div className="sidebar__menu--top">
             <Router href="/ForYou" className="sidebar__link--wrapper">
               <div className="sidebar__link--line"></div>
@@ -61,32 +61,32 @@ export default function Sidebar( ) {
             <div className="sidebar__link--line"></div>
             <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faBookBookmark} /> </div> My Library
           </Router>
-          <a className="sidebar__link--wrapper no-click">
+          <button type="button" className="sidebar__link--wrapper no-click" aria-disabled="true">
             <div className="sidebar__link--line"></div>
             <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faPen} /> </div> Highlights
-          </a>
-          <a className="sidebar__link--wrapper no-click">
+          </button>
+          <button type="button" className="sidebar__link--wrapper no-click" aria-disabled="true">
             <div className="sidebar__link--line"></div>
             <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faMagnifyingGlass} /> </div> Search
-          </a>
+          </button>
         </div>
         <div className="sidebar__menu--bottom">
           <Router href="/Settings" className="sidebar__link--wrapper">
             <div className="sidebar__link--line"></div>
             <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faGear} /> </div> Settings
           </Router>
-          <a className="sidebar__link--wrapper no-click">
+          <button type="button" className="sidebar__link--wrapper no-click" aria-disabled="true">
             <div className="sidebar__link--line"></div>
             <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faQuestionCircle} /> </div> Help
-          </a>
+          </button>
           <Router href="/" onClick={() => {logout()}} className="sidebar__link--wrapper">
             <div className="sidebar__link--line"></div>
             <div className="sidebar__icon--wrapper"> <FontAwesomeIcon icon={faPersonThroughWindow} /> </div>
             Logout
           </Router>
         </div>
-      </div>
-    </div>
+      </nav>
+    </aside>
     </>
   );
 }

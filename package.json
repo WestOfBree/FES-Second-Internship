@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "a11y:axe": "axe http://localhost:3000 http://localhost:3000/ForYou --load-delay 1000 --exit",
+    "a11y:axe:labels": "axe http://localhost:3000 http://localhost:3000/ForYou -r label --load-delay 1000 --exit",
     "test": "jest",
     "test:watch": "jest --watch"
   },
@@ -26,6 +28,7 @@
     "swiper": "^12.1.2"
   },
   "devDependencies": {
+    "@axe-core/cli": "^4.11.3",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",

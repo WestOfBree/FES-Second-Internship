@@ -1,7 +1,7 @@
 export default function Footer() {
 
 return (
-    <section id="footer">
+    <footer id="footer" role="contentinfo">
       <div className="container">
         <div className="row">
           <div className="footer__top--wrapper">
@@ -81,6 +81,6 @@ return (
           </div>
         </div>
       </div>
-    </section>
+    </footer>
   );
 }

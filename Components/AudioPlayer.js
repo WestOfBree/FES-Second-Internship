@@ -7,6 +7,7 @@ import {
   faPause,
 } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
+import Image from "next/image";
 
 export default function AudioPlayer({ bookInfo }) {
   const audioRef = React.useRef(null);
@@ -116,14 +117,15 @@ export default function AudioPlayer({ bookInfo }) {
       <div className="audio__track--wrapper">
         <figure className="audio__track--image-mask">
           <figure className="audio__track--image-border">
-            <img
+            <Image
               className="audio__track--image"
               src={
                 bookInfo?.imageLink ||
                 "https://www.thebookdesigner.com/wp-content/uploads/2024/05/J.R.R.Tolkien-The-Hobbit.png"
               }
               alt="Book Cover"
-              style={{ height: "48px", width: "48px" }}
+              width={48}
+              height={48}
             />
           </figure>
         </figure>

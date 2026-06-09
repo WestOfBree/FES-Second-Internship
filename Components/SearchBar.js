@@ -4,8 +4,6 @@ import "./SearchBar.modal.css";
 import { useRef } from "react";
 import Router from "next/link";
 import React from "react";
-import { height } from "@fortawesome/free-brands-svg-icons/fa11ty";
-import { useState } from "react";
 
 export default function SearchBar( { setIsOpen } ) {
   const debounceTimeout = 1000;
@@ -43,28 +41,33 @@ export default function SearchBar( { setIsOpen } ) {
         <div className="search__content">
           <div className="search">
             <div className="search__input--wrapper">
+              <label className="visually-hidden" htmlFor="for-you-search">
+                Search for books
+              </label>
               <input
+                id="for-you-search"
                 type="text"
                 placeholder="Search for books..."
                 className="search__input"
                 onChange={handleSearch}
               />
-              <div className="search__icon">
+              <div aria-hidden="true" className="search__icon">
                 <FontAwesomeIcon
                   className="search__icon--svg"
                   icon={faMagnifyingGlass}
                 />
               </div>
             </div>
-            <div className="sidebar__toggle"> 
-              <FontAwesomeIcon
-                className="sidebar__toggle--icon"
-                icon={faBars}
-                onClick={() => {
-                  openSidebar();
-                }}
-              />
-            </div>
+            <button
+              type="button"
+              className="sidebar__toggle"
+              aria-label="Open sidebar menu"
+              onClick={() => {
+                openSidebar();
+              }}
+            >
+              <FontAwesomeIcon className="sidebar__toggle--icon" icon={faBars} />
+            </button>
           </div>
           {userQuery && (
             <div className="search__results--wrapper">
